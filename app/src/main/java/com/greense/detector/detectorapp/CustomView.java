@@ -12,8 +12,8 @@ class CustomView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //TODO: call invalidate on a specific Rect instead of redrawing the complete view as per your use case
         invalidate();
+        invalidate(1,2,3,4);
         return false;
     }
 
