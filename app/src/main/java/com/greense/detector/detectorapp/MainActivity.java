@@ -1,6 +1,7 @@
 package com.greense.detector.detectorapp;
 
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,8 +14,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AsyncTask task = new MyTask();
+        task.execute();
     }
 
+    static class MyTask extends AsyncTask{
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            return null;
+        }
+    };
     @Override
     public void onStart(){
         Log.d("","");
