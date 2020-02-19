@@ -20,7 +20,8 @@ public class CustomLintRegistry extends IssueRegistry {
             UHADetector.ISSUE_UHA,
             SmartLoggerDetector.ISSUE_LOG,
             LeakingListenerIssue.ISSUE,
-            TextAppearanceIssue.ISSUE
+            TextAppearanceIssue.ISSUE,
+            RLDetector.ISSUE_RL
     );
     }
 }
