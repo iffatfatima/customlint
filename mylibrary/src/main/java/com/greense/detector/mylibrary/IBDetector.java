@@ -45,7 +45,7 @@ public class IBDetector extends Detector implements Detector.UastScanner {
     }
 
     private LintFix getFix(UCallExpression call) {
-        String fix = "//TODO: Activity must nnot be called from a background service. Add forerground check or remove it from Service";
+        String fix = "//TODO: Activity must nnot be called from a background service. Add forerground check or remove it from Service\n//";
         String logCallSource = call.asSourceString();
         LintFix.GroupBuilder fixGrouper = fix().group();
         fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).beginning().with(fix).build());
