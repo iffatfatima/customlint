@@ -4,15 +4,16 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseArray;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
 
     Camera camera;
-    SparseArray<Long> map = new SparseArray<>();
+    HashMap<Integer, Long> map = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

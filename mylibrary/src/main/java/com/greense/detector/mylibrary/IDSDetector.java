@@ -64,7 +64,7 @@ public class IDSDetector extends Detector implements Detector.UastScanner {
                 String checkString = typeName.substring(typeName.indexOf("<") + 1, typeName.indexOf(","));
                 if(checkString.equals("Integer")) {
                     String requiredString = typeName.substring(typeName.indexOf(",") + 1, typeName.indexOf(">"));
-                    String fix = "SparseArray<" + requiredString + ">" + expression.getName() + " = new SparseArray<>();";
+                    String fix = "SparseArray<" + requiredString + ">" + expression.getName().toString() + " = new SparseArray<>();";
                     String logCallSource = expression.asSourceString();
                     LintFix.GroupBuilder fixGrouper = fix().group();
                     fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).with(fix).build());
