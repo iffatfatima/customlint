@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     Camera camera;
+    SparseArray<Long> map = new SparseArray<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,16 +21,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
-        Log.d("","");
+    public void onStart() {
+        Log.d("", "");
 
         super.onStart();
         camera = Camera.open();
     }
 
     @Override
-    public void onStop(){
-        if (camera != null){
+    public void onStop() {
+        if (camera != null) {
             camera.release();
             camera = null;
         }
