@@ -40,12 +40,26 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
 
         if(method.getName().equals(START_SERVICE)) {
             if (call.getValueArguments().get(0) instanceof JavaConstructorUCallExpression) {
-                serviceStatus.get(call.getValueArguments().get(0).toString()).started = true;
+                String key = call.getValueArguments().get(0).getJavaPsi().toString();
+                key = key.substring(key.lastIndexOf(":") +1);
+                if(serviceStatus.get(key) == null) {
+                    serviceStatus.put(key, new ServiceStatus(true, false));
+                }
+                else{
+                    serviceStatus.get(key).started = true;
+                }
             }
         }
         else if (method.getName().equals(STOP_SERVICE)){
             if(call.getValueArguments().get(0) instanceof JavaConstructorUCallExpression){
-                serviceStatus.get(call.getValueArguments().get(0).toString()).stopped = true;
+                String key = call.getValueArguments().get(0).getJavaPsi().toString();
+                key = key.substring(key.lastIndexOf(":") +1);
+                if(serviceStatus.get(key) == null) {
+                    serviceStatus.put(key, new ServiceStatus(false, true));
+                }
+                else{
+                    serviceStatus.get(key).stopped = true;
+                }
             }
         }
         else if (method.getName().equals(ON_STOP)){
@@ -77,7 +91,7 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
     }
 
     private LintFix applyFix(UCallExpression call, String fixExp) {
-        String fix = "stopService( new"+ fixExp +");\n";
+        String fix = "stopService("+ fixExp +");\n";
         String logCallSource = call.asSourceString();
         LintFix.GroupBuilder fixGrouper = fix().group();
         fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).beginning().with(fix).build());
@@ -97,8 +111,9 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
         boolean started = false;
         boolean stopped = false;
 
-        ServiceStatus(){
-
+        ServiceStatus(boolean started, boolean stopped) {
+            this.started = started;
+            this.stopped = stopped;
         }
     }
 
