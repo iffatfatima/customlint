@@ -15,6 +15,6 @@ public class CustomLintRegistry extends IssueRegistry {
 
     @NotNull
     @Override
-    public List<Issue> getIssues() { return Arrays.asList(IDSDetector.ISSUE_IDS, BFUDetector.ISSUE_BFU, IBDetector.ISSUE_IB, IWRDetector.ISSUE_IWR, UHADetector.ISSUE_UHA,SmartLoggerDetector.ISSUE_LOG, LeakingListenerIssue.ISSUE, TextAppearanceIssue.ISSUE);
+    public List<Issue> getIssues() { return Arrays.asList(VBSDetector.ISSUE_VBS, IDSDetector.ISSUE_IDS, BFUDetector.ISSUE_BFU, IBDetector.ISSUE_IB, IWRDetector.ISSUE_IWR, UHADetector.ISSUE_UHA,SmartLoggerDetector.ISSUE_LOG, LeakingListenerIssue.ISSUE, TextAppearanceIssue.ISSUE);
     }
 }

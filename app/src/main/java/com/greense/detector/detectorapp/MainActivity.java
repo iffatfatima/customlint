@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startService(new Intent(this, BgService.class));
         startActivity(new Intent(this, MainActivity.class));
     }
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onStart();
         camera = Camera.open();
+
     }
 
     @Override
