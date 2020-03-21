@@ -3,6 +3,7 @@ package com.greense.detector.detectorapp;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,12 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 public class AppFragment extends Fragment {
+
+    @Override
+    public void onStop() {
+        mListener = null;
+        super.onStop();
+    }
 
     private OnFragmentInteractionListener mListener;
 
@@ -25,8 +32,8 @@ public class AppFragment extends Fragment {
     }
 
     public void onButtonPressed(Uri uri) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            Bitmap bitmap = Bitmap.createBitmap(1,2, Bitmap.Config.ARGB_8888, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Bitmap bitmap = Bitmap.createBitmap(1, 2, Bitmap.Config.ARGB_8888, false);
         }
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
