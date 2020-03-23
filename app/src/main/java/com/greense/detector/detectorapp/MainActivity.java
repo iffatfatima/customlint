@@ -1,6 +1,7 @@
 package com.greense.detector.detectorapp;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -16,6 +17,8 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static SQLiteDatabase db = SQLiteDatabase.create(null);
+    public static SQLiteDatabase db1;
     Camera camera;
     HashMap<Integer, Long> map = new HashMap<>();
     FragmentListener listener;
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SQLiteDatabase db = SQLiteDatabase.create(null);
         listener = (FragmentListener) this;
         startService(new Intent(this, BgService.class));
         startActivity(new Intent(this, MainActivity.class));
