@@ -52,7 +52,7 @@ public class LCDetector extends Detector implements Detector.UastScanner {
                     for (UMethod method: classNode.getMethods()) {
                         if(method.getName().equals("onStop")){
                             onStopPresent = true;
-                           onStopBody = Objects.requireNonNull(method.getUastBody()).toString();
+                            onStopBody = Objects.requireNonNull(method.getUastBody()).toString();
                         }
                     }
                     for (int i = 0; i < classNode.getFields().length; i++) {
@@ -121,10 +121,10 @@ public class LCDetector extends Detector implements Detector.UastScanner {
         }
         String part1 = onStopBody.substring(0, onStopBody.indexOf("{"));
         String part3 = onStopBody.substring(onStopBody.indexOf("{")+1, onStopBody.length()-1);
-        fix.append( part1.concat(String.valueOf(part2)).concat(part3));
+        fix.append( part1.concat(String.valueOf(part2)).concat(part3).replace("\r", "\n"));
         String logCallSource = element.getText();
         LintFix.GroupBuilder fixGrouper = fix().group();
-        fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).beginning().with(onStopBody).build());
+        fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).beginning().with(String.valueOf(fix)).build());
         return fixGrouper.build();
     }
 

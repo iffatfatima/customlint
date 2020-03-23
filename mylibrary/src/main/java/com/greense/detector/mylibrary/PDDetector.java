@@ -47,10 +47,10 @@ public class PDDetector extends Detector implements Detector.UastScanner {
     private LintFix getFix(UCallExpression call, String methodName) {
         String fix = "";
         if(methodName.toLowerCase().contains("cache")){
-            fix = "getCacheDir";
+            fix = "getCacheDir()";
         }
         else{
-            fix = "getFilesDir";
+            fix = "getFilesDir()";
         }
         String source = call.asSourceString();
         LintFix.GroupBuilder fixGrouper = fix().group();

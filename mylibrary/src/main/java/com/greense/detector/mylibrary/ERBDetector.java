@@ -11,19 +11,21 @@ import com.android.tools.lint.detector.api.Severity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.uast.UElement;
-import org.jetbrains.uast.UVariable;
+import org.jetbrains.uast.UField;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class ERBDetector extends Detector implements Detector.UastScanner {
 
     private JavaContext context = null;
-    private String[] typeNames = {"android.database.sqlite.SQLiteDatabase"};
+    private String[] typeNames = {"android.database.sqlite.SQLiteDatabase", "android.media.MediaPlayer", "android.location.Location",
+    "android.hardware.Camera", "android.hardware.Sensor"};
 
     @Override
     public List<Class<? extends UElement>> getApplicableUastTypes() {
-        return Collections.singletonList(UVariable.class);
+        return Collections.singletonList(UField.class);
     }
 
     @Override
@@ -44,10 +46,10 @@ public class ERBDetector extends Detector implements Detector.UastScanner {
     private class MyUElementHandler extends UElementHandler {
 
         @Override
-        public void visitVariable(@NotNull UVariable expression){
-            String typeName = expression.getTypeReference().getQualifiedName();
+        public void visitField(@NotNull UField expression){
+            String typeName = Objects.requireNonNull(expression.getTypeReference()).getQualifiedName();
             for (String myTypeName: typeNames){
-                if (typeName != null && typeName.equalsIgnoreCase(myTypeName) && !expression.textContains('=')) {
+                if (typeName != null && typeName.equalsIgnoreCase(myTypeName) && expression.textContains('=')) {
                     context.report(ISSUE_ERB, (UElement) expression,
                             context.getLocation((UElement) expression),
                             "Early Resource Binding",

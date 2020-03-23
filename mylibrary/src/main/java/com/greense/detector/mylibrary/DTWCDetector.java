@@ -54,7 +54,7 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
 
     @Override
     public final void visitConstructor(@NotNull JavaContext context, @NotNull UCallExpression call, @NotNull PsiMethod constructor){
-
+        //todo: check if already compressed
         if (call.getValueArguments().size()==1){
             UExpression exp = call.getValueArguments().get(0);
             String strExp = exp.toString();

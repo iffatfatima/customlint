@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.hardware.Camera;
+import android.graphics.Camera;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     HashMap<Integer, Long> map = new HashMap<>();
     FragmentListener listener;
 
+    Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Environment.getExternalStoragePublicDirectory("");
         Bitmap bmp = BitmapFactory.decodeFile("");
         getCacheDir();
+        Handler handler;
         getFilesDir();
         BitmapFactory.decodeFile("");
         File file;
@@ -49,19 +53,19 @@ public class MainActivity extends AppCompatActivity {
         Log.d("", "");
 
         super.onStart();
-        camera = Camera.open();
+//        camera = Camera.open();
 
     }
 
-    @Override
+
     public void onStop() {
-        if (camera != null) {
-            camera.release();
-            camera = null;
-        }
         super.onStop();
     }
 
+    @Override
+    public void onTrimMemory(int level) {
+        //todo: Free memory here
+    }
 }
 
 
