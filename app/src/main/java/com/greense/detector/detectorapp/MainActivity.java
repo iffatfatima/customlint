@@ -23,8 +23,14 @@ public class MainActivity extends AppCompatActivity {
     Camera camera;
     HashMap<Integer, Long> map = new HashMap<>();
     FragmentListener listener;
-
     Handler handler;
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +61,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 //        camera = Camera.open();
 
-    }
-
-
-    public void onStop() {
-        super.onStop();
     }
 
     @Override

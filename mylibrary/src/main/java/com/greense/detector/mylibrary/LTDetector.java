@@ -56,21 +56,22 @@ public class LTDetector extends Detector implements Detector.UastScanner {
                     }
                 }
                 if (fieldNames.size() > 0) {
-                    if (onStopPresent) {
-                        for (UField fieldName : fieldNames) {
-                            if (!onStopBody.contains(fieldName + ".remove")) {
+                    for (UField fieldName : fieldNames) {
+                        if (onStopPresent){
+                            if(!onStopBody.contains(fieldName + ".remove")) {
                                 context.report(ISSUE_LT, classNode.getRBrace(),
                                         context.getLocation(fieldName),
                                         "Leaking Thread",
                                         getFix(onStopMethod, onStopBody, fieldName.getName())
                                 );
-                            } else {
-                                context.report(ISSUE_LT, classNode.getRBrace(),
-                                        context.getLocation(Objects.requireNonNull(classNode.findFieldByName(fieldName.getName(), false))),
-                                        "Leaking Thread",
-                                        getFix(Objects.requireNonNull(classNode.getRBrace()), fieldName.getName())
-                                );
                             }
+                        }
+                        else {
+                            context.report(ISSUE_LT, classNode.getRBrace(),
+                                    context.getLocation(Objects.requireNonNull(classNode.findFieldByName(fieldName.getName(), false))),
+                                    "Leaking Thread",
+                                    getFix(Objects.requireNonNull(classNode.getRBrace()), fieldName.getName())
+                            );
                         }
                     }
                 }
@@ -81,9 +82,9 @@ public class LTDetector extends Detector implements Detector.UastScanner {
 
     private LintFix getFix(PsiElement element, String fieldName) {
 
-        StringBuilder fix = new StringBuilder("\t@Override\n" +
+        StringBuilder fix = new StringBuilder("\t@Override \n" +
                 "\tpublic void onStop(){\n");
-        fix.append("\t\t if(").append(fieldName).append("!= null){").append(" .removeCallbacksAndMessages(null); } ");
+        fix.append("\t\t if(").append(fieldName).append("!= null){").append(fieldName).append(".removeCallbacksAndMessages(null); } ");
         fix.append("\t\t super.onStop();\n"
                 + "\t}");
         String logCallSource = element.getText();

@@ -43,7 +43,7 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
                 String key = call.getValueArguments().get(0).getJavaPsi().toString();
                 key = key.substring(key.lastIndexOf(":") +1);
                 if(serviceStatus.get(key) == null) {
-                    serviceStatus.put(key, new ServiceStatus(true, false));
+                    serviceStatus.put(key, new ServiceStatus(true, false, call));
                 }
                 else{
                     serviceStatus.get(key).started = true;
@@ -55,7 +55,7 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
                 String key = call.getValueArguments().get(0).getJavaPsi().toString();
                 key = key.substring(key.lastIndexOf(":") +1);
                 if(serviceStatus.get(key) == null) {
-                    serviceStatus.put(key, new ServiceStatus(false, true));
+                    serviceStatus.put(key, new ServiceStatus(false, true, call));
                 }
                 else{
                     serviceStatus.get(key).stopped = true;
@@ -74,7 +74,7 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
             if(!element.getValue().stopped){
                 if(stopCall != null) {
                     jContext.report(ISSUE_VBS, stopCall,
-                            jContext.getLocation(stopCall),
+                            jContext.getLocation(element.getValue().call),
                             "Vacuous Background Service",
                             applyFix(stopCall, element.getKey())
                     );
@@ -110,11 +110,15 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
     class ServiceStatus{
         boolean started = false;
         boolean stopped = false;
+        UCallExpression call;
 
-        ServiceStatus(boolean started, boolean stopped) {
+        ServiceStatus(boolean started, boolean stopped, UCallExpression call) {
             this.started = started;
             this.stopped = stopped;
+            this.call = call;
         }
+
+
     }
 
 }
