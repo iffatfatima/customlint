@@ -13,6 +13,7 @@ import com.intellij.psi.PsiMethod;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.uast.UCallExpression;
+import org.jetbrains.uast.UExpression;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +33,11 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
         return Arrays.asList(METHOD_LIST);
     }
 
+//    @Override
+//    public List<String> getApplicableConstructorTypes() {
+//        return Arrays.asList("java.io.File");
+//    }
+
     @Override
     public final void visitMethodCall(@NotNull JavaContext context, @NotNull UCallExpression call, @NotNull PsiMethod method) {
         for(String methodName : METHOD_LIST) {
@@ -39,9 +45,28 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
 
                 context.report(ISSUE_DTWC, call,
                         context.getLocation(call),
-                        "Use internal storage instead of extenral Storage",
+                        "Compress Bitmap before sending over network",
                         getFix(call, method.getName())
                 );
+            }
+        }
+    }
+
+    @Override
+    public final void visitConstructor(@NotNull JavaContext context, @NotNull UCallExpression call, @NotNull PsiMethod constructor){
+
+        if (call.getValueArguments().size()==1){
+            UExpression exp = call.getValueArguments().get(0);
+            String strExp = exp.toString();
+            if (strExp.contains(".")) {
+                strExp = strExp.substring(strExp.lastIndexOf("."), strExp.length() - 1);
+                if (!strExp.contains("zip")){
+                    context.report(ISSUE_DTWC, call,
+                            context.getLocation(call),
+                            "Load zip files if it is to be transmitted over network",
+                            null
+                    );
+                }
             }
         }
     }
@@ -93,8 +118,8 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
     }
 
     static final Issue ISSUE_DTWC =
-            Issue.create("Public Directory",
-                    "Use internal storage instead of extenral Storage",
+            Issue.create("Data Transmission Without Compression",
+                    "Compress Bitmap before sending over network",
                     "",
                     Category.PERFORMANCE,
                     6,

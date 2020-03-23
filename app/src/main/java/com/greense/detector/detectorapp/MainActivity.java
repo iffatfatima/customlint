@@ -10,6 +10,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
 import java.util.HashMap;
 
 
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         getCacheDir();
         getFilesDir();
         BitmapFactory.decodeFile("");
+        File file;
+        new File("fileName.txt");
+
     }
 
     @Override
