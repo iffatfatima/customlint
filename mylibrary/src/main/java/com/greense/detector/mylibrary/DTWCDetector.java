@@ -33,20 +33,14 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
         return Arrays.asList(METHOD_LIST);
     }
 
-//    @Override
-//    public List<String> getApplicableConstructorTypes() {
-//        return Arrays.asList("java.io.File");
-//    }
-
     @Override
     public final void visitMethodCall(@NotNull JavaContext context, @NotNull UCallExpression call, @NotNull PsiMethod method) {
         for(String methodName : METHOD_LIST) {
             if (method.getName().equals(methodName)) {
-
                 context.report(ISSUE_DTWC, call,
                         context.getLocation(call),
-                        "Compress Bitmap before sending over network",
-                        getFix(call, method.getName())
+                        getFix(call, method.getName()), null
+//                        getFix(call, method.getName())
                 );
             }
         }
@@ -71,7 +65,7 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
         }
     }
 
-    private LintFix getFix(UCallExpression call, String methodName) {
+    private String getFix(UCallExpression call, String methodName) {
         String fixBefore = "ByteArrayOutputStream out = new ByteArrayOutputStream();";
         String varName = getVarName(Objects.requireNonNull(call.getSourcePsi()));
         String fixAfter = "";
@@ -81,9 +75,11 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
 //        }
 //        else{
         if(!varName.isEmpty()) {
-            fixAfter = ";\nnew Handler().post(new Runnable() {\n" +
+            fixAfter = "Compress bitmap before sending it over the network" +
+                    "\nExample:" +
+                    "\nnew Handler().post(new Runnable() {\n" +
                     "            @Override\n" +
-                    "            public void run() {\n" +
+                    "            public void run() {\n\t" +
                     "                " + varName + ".compress(Bitmap.CompressFormat.JPEG, 100, new ByteArrayOutputStream());\n" +
                     "            }\n" +
                     "        });";
@@ -96,7 +92,7 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
                 .beginning().with(fixBefore)
                 .end().with(fixAfter)
                 .build());
-        return fixGrouper.build();
+        return fixAfter;
     }
 
     private boolean hasEquals = false;
@@ -113,7 +109,6 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
             hasEquals = false;
             return source.getPrevSibling().getText();
         }
-
         return "";
     }
 

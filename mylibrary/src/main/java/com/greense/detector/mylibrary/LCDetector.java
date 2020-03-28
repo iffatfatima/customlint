@@ -29,7 +29,7 @@ public class LCDetector extends Detector implements Detector.UastScanner {
     private ArrayList<UClass> interfaceList = new ArrayList<>();
 
     @Override
-    public void afterCheckEachProject(Context context) {
+    public void afterCheckEachProject(@NotNull Context context) {
         super.afterCheckEachProject(context);
         if (context.getPhase() == 1) { // Rescan classes
             context.requestRepeat(this, LCDetector.ISSUE_LC.getImplementation().getScope());
