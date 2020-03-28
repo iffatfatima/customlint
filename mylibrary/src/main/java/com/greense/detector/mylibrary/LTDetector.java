@@ -58,17 +58,17 @@ public class LTDetector extends Detector implements Detector.UastScanner {
                 if (fieldNames.size() > 0) {
                     for (UField fieldName : fieldNames) {
                         if (onStopPresent){
-                            if(!onStopBody.contains(fieldName + ".remove")) {
+                            if(!onStopBody.contains(fieldName.getName() + ".remove")) {
                                 context.report(ISSUE_LT, classNode.getRBrace(),
-                                        context.getLocation(fieldName),
+                                        context.getLocation(Objects.requireNonNull(Objects.requireNonNull(onStopMethod.getJavaPsi().getBody()).getLBrace())),
                                         "Leaking Thread",
-                                        getFix(onStopMethod, onStopBody, fieldName.getName())
+                                        getFix(onStopMethod, fieldName.getName())
                                 );
                             }
                         }
                         else {
                             context.report(ISSUE_LT, classNode.getRBrace(),
-                                    context.getLocation(Objects.requireNonNull(classNode.findFieldByName(fieldName.getName(), false))),
+                                    context.getLocation(fieldName),
                                     "Leaking Thread",
                                     getFix(Objects.requireNonNull(classNode.getRBrace()), fieldName.getName())
                             );
@@ -82,27 +82,22 @@ public class LTDetector extends Detector implements Detector.UastScanner {
 
     private LintFix getFix(PsiElement element, String fieldName) {
 
-        StringBuilder fix = new StringBuilder("\t@Override \n" +
-                "\tpublic void onStop(){\n");
-        fix.append("\t\t if(").append(fieldName).append("!= null){").append(fieldName).append(".removeCallbacksAndMessages(null); } ");
-        fix.append("\t\t super.onStop();\n"
-                + "\t}");
-        String logCallSource = element.getText();
+        String source = element.getText();
         LintFix.GroupBuilder fixGrouper = fix().group();
-        fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).beginning().with(fix.toString()).build());
+        String fix = "\t@Override \n" +
+                "\tpublic void onStop(){\n" + "\t\t if(" + fieldName + "!= null){" + fieldName + ".removeCallbacksAndMessages(null); } " +
+                "\t\t super.onStop();\n"
+                + "\t}";
+        fixGrouper.add(fix().replace().text(source).shortenNames().reformat(true).end().with(fix).build());
         return fixGrouper.build();
     }
 
-    private LintFix getFix(PsiElement element, String onStopBody, String fieldName) {
-        StringBuilder fix = new StringBuilder();
-        String part1 = onStopBody.substring(0, onStopBody.indexOf("{"));
-        String part2 = onStopBody.substring(onStopBody.indexOf("{")+1, onStopBody.length()-1);
-        String finalFix = part1.concat("\t\t if(" + fieldName + "!= null){" + fieldName + ".removeCallbacksAndMessages(null); } ").concat(part2);
-        finalFix = finalFix.replace("\r", "\n");
-        fix.append(finalFix);
-        String source = element.getText();
+    private LintFix getFix(UMethod element, String fieldName) {
+        String fix = ("\t\t if(" + fieldName + "!= null){" + fieldName + ".removeCallbacksAndMessages(null); } ");
+        fix = fix.replace("\r", "");
+        String source = Objects.requireNonNull(element.getJavaPsi().getBody()).getLBrace().getText();
         LintFix.GroupBuilder fixGrouper = fix().group();
-        fixGrouper.add(fix().replace().text(source).shortenNames().reformat(true).with(String.valueOf(fix)).build());
+        fixGrouper.add(fix().replace().text(source).shortenNames().reformat(true).end().with(fix).build());
         return fixGrouper.build();
     }
 //

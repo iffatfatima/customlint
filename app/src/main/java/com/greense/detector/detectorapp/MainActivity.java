@@ -23,14 +23,15 @@ public class MainActivity extends AppCompatActivity {
     Camera camera;
     HashMap<Integer, Long> map = new HashMap<>();
     FragmentListener listener;
-    Handler handler;
-
+    Handler myHandler;
 
     @Override
     public void onStop() {
+        if (myHandler != null) {
+            myHandler.removeCallbacksAndMessages(null);
+        }
         super.onStop();
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
