@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public static SQLiteDatabase db1;
     Camera camera;
     HashMap<Integer, Long> map = new HashMap<>();
-    FragmentListener listener;
+    private FragmentListener listener;
     Handler myHandler;
 
     @Override
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onStop();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

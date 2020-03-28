@@ -47,30 +47,30 @@ public class LTDetector extends Detector implements Detector.UastScanner {
                         onStopBody = Objects.requireNonNull(method.getUastBody()).toString();
                     }
                 }
-                ArrayList<UField> fieldNames = new ArrayList<>();
+                ArrayList<UField> fields = new ArrayList<>();
                 for (UField field: classNode.getFields()){
                     String element = Objects.requireNonNull(field.getTypeElement()).toString();
                     element = element.substring(element.lastIndexOf(":") +1, element.length());
                     if (element.equalsIgnoreCase("Handler")){
-                        fieldNames.add(field);
+                        fields.add(field);
                     }
                 }
-                if (fieldNames.size() > 0) {
-                    for (UField fieldName : fieldNames) {
+                if (fields.size() > 0) {
+                    for (UField field : fields) {
                         if (onStopPresent){
-                            if(!onStopBody.contains(fieldName.getName() + ".remove")) {
+                            if(!onStopBody.contains(field.getName() + ".remove")) {
                                 context.report(ISSUE_LT, classNode.getRBrace(),
                                         context.getLocation(Objects.requireNonNull(Objects.requireNonNull(onStopMethod.getJavaPsi().getBody()).getLBrace())),
                                         "Leaking Thread",
-                                        getFix(onStopMethod, fieldName.getName())
+                                        getFix(onStopMethod, field.getName())
                                 );
                             }
                         }
                         else {
                             context.report(ISSUE_LT, classNode.getRBrace(),
-                                    context.getLocation(fieldName),
+                                    context.getLocation(field),
                                     "Leaking Thread",
-                                    getFix(Objects.requireNonNull(classNode.getRBrace()), fieldName.getName())
+                                    getFix(Objects.requireNonNull(classNode.getRBrace()), field.getName())
                             );
                         }
                     }
@@ -93,10 +93,10 @@ public class LTDetector extends Detector implements Detector.UastScanner {
     }
 
     private LintFix getFix(UMethod element, String fieldName) {
+        LintFix.GroupBuilder fixGrouper = fix().group();
         String fix = ("\t\t if(" + fieldName + "!= null){" + fieldName + ".removeCallbacksAndMessages(null); } ");
         fix = fix.replace("\r", "");
         String source = Objects.requireNonNull(element.getJavaPsi().getBody()).getLBrace().getText();
-        LintFix.GroupBuilder fixGrouper = fix().group();
         fixGrouper.add(fix().replace().text(source).shortenNames().reformat(true).end().with(fix).build());
         return fixGrouper.build();
     }

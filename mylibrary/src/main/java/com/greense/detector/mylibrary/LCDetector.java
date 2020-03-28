@@ -15,6 +15,7 @@ import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.uast.UClass;
 import org.jetbrains.uast.UElement;
+import org.jetbrains.uast.UField;
 import org.jetbrains.uast.UMethod;
 
 import java.lang.reflect.Modifier;
@@ -49,42 +50,41 @@ public class LCDetector extends Detector implements Detector.UastScanner {
                 if (Objects.requireNonNull(qualifiedClassName).equals(className)) {
                     boolean onStopPresent = false;
                     String onStopBody = "";
+                    UMethod onStopMethod = null;
                     for (UMethod method: classNode.getMethods()) {
                         if(method.getName().equals("onStop")){
                             onStopPresent = true;
                             onStopBody = Objects.requireNonNull(method.getUastBody()).toString();
+                            onStopBody = onStopBody.replace(" ", "");
+                            onStopBody = onStopBody.replace("\t", "");
+                            onStopMethod = method;
                         }
                     }
+                    ArrayList<UField> fields = new ArrayList<>();
                     for (int i = 0; i < classNode.getFields().length; i++) {
                         String field = classNode.getFields()[i].getType().toString();
-                        field = field.substring(field.lastIndexOf(":")+1);
-                        ArrayList<String> fieldNames = new ArrayList<>();
+                        field = field.substring(field.lastIndexOf(":") + 1);
                         for (UClass interfaceNode : interfaceList) {
                             if (Objects.requireNonNull(interfaceNode.getName()).contains(field)) {
-                                fieldNames.add(classNode.getFields()[i].getPsi().getName());
+                                fields.add(classNode.getFields()[i]);
                             }
                         }
-                        if(fieldNames.size() > 0) {
+                    }
+                    if(fields.size() > 0) {
+                        for (UField field : fields) {
                             if (onStopPresent) {
-                                boolean correctionNeeded = false;
-                                for (String fieldName : fieldNames){
-                                    if(!onStopBody.contains(fieldName+"=null")){
-                                        correctionNeeded = true;
-                                    }
-                                }
-
-                                if(correctionNeeded) {
-                                    context.report(ISSUE_LC, classNode.getRBrace(),
-                                            context.getLocation(classNode.getFields()[i]),
+                                if (!onStopBody.contains(field.getName() + "=null")) {
+                                    context.report(ISSUE_LC,  classNode.getRBrace(),
+                                            context.getLocation(Objects.requireNonNull(Objects.requireNonNull(onStopMethod.getJavaPsi().getBody()).getLBrace())),
                                             "Leaking class",
-                                            getFix(classNode.getRBrace(), onStopBody, fieldNames)
+                                            getFix(onStopMethod, field.getName())
                                     );
                                 }
                             } else {
                                 context.report(ISSUE_LC, classNode.getRBrace(),
-                                        context.getLocation(classNode.getFields()[i]),
+                                        context.getLocation(field),
                                         "Leaking class",
-                                        getFix(classNode.getRBrace(), fieldNames)
+                                        getFix(Objects.requireNonNull(classNode.getRBrace()), field.getName())
                                 );
                             }
                         }
@@ -95,36 +95,24 @@ public class LCDetector extends Detector implements Detector.UastScanner {
     }
 
 
-    private LintFix getFix(PsiElement element, ArrayList<String> classInterfaces) {
+    private LintFix getFix(PsiElement element, String fieldName) {
 
-        StringBuilder fix = new StringBuilder("\t@Override\n" +
-                "\tpublic void onStop(){\n");
-        for (String fieldName : classInterfaces){
-            fix.append("\t\t").append(fieldName).append(" = null;\n");
-        }
-        fix.append("\t\tsuper.onStop();\n"
-                + "\t}");
-        String logCallSource = element.getText();
+        String source = element.getText();
         LintFix.GroupBuilder fixGrouper = fix().group();
-        fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).beginning().with(fix.toString()).build());
+        String fix = "\t@Override\n" +
+                "\tpublic void onStop(){\n" + "\t\t" + fieldName + " = null;\n" +
+                "\t\tsuper.onStop();\n"
+                + "\t}";
+        fixGrouper.add(fix().replace().text(source).shortenNames().reformat(true).end().with(fix).build());
         return fixGrouper.build();
     }
 
-    private LintFix getFix(PsiElement element, String onStopBody, ArrayList<String> fieldNames) {
-        StringBuilder fix = new StringBuilder();
-        String bodyChecker = onStopBody.replace(" ", "");
-        StringBuilder part2 = new StringBuilder();
-        for (String fieldName : fieldNames){
-            if(!bodyChecker.contains(fieldName+"=null")){
-                part2.append("\t\t").append(fieldName).append(" = null;\n");
-            }
-        }
-        String part1 = onStopBody.substring(0, onStopBody.indexOf("{"));
-        String part3 = onStopBody.substring(onStopBody.indexOf("{")+1, onStopBody.length()-1);
-        fix.append( part1.concat(String.valueOf(part2)).concat(part3).replace("\r", "\n"));
-        String logCallSource = element.getText();
+    private LintFix getFix(UMethod onStopMethod, String fieldName) {
         LintFix.GroupBuilder fixGrouper = fix().group();
-        fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).beginning().with(String.valueOf(fix)).build());
+        String fix = ("\t\t" + fieldName + " = null;\n");
+        fix = fix.replace("\r", "");
+        String source = Objects.requireNonNull(onStopMethod.getJavaPsi().getBody()).getLBrace().getText();
+        fixGrouper.add(fix().replace().text(source).shortenNames().reformat(true).end().with(fix).build());
         return fixGrouper.build();
     }
 

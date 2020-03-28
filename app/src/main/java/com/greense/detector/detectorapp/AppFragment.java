@@ -13,13 +13,14 @@ import androidx.fragment.app.Fragment;
 
 public class AppFragment extends Fragment {
 
+
+    private OnFragmentInteractionListener mListener;
+
     @Override
     public void onStop() {
         mListener = null;
         super.onStop();
     }
-
-    private OnFragmentInteractionListener mListener;
 
     public static AppFragment newInstance() {
         return new AppFragment();
@@ -35,23 +36,23 @@ public class AppFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Bitmap bitmap = Bitmap.createBitmap(1, 2, Bitmap.Config.ARGB_8888, false);
         }
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+//            mListener = (OnFragmentInteractionListener) context;
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+//        mListener = null;
     }
 
     public interface OnFragmentInteractionListener {
