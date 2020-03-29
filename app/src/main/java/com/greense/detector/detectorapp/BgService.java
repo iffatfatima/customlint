@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.os.IBinder;
 
 public class BgService extends Service {
+    class Hello {
+
+    }
     public BgService() {
     }
 
     @Override
-    public void onCreate(){
-        startActivity(new Intent(this, MainActivity.class));
-    }
+    public void onCreate() {
 
+        startActivity(new Intent(this, MainActivity.class));
+
+    }
 
     @Override
     public IBinder onBind(Intent intent) {

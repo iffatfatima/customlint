@@ -1,6 +1,5 @@
 package com.greense.detector.detectorapp;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,9 @@ public class MainFragment extends Fragment {
     private MainViewModel mViewModel;
     private FragmentListener fragmentListener1;
     private FragmentListener fragmentListener2;
+
+    public MainFragment() {
+    }
 
 
     public static MainFragment newInstance() {
@@ -35,7 +37,5 @@ public class MainFragment extends Fragment {
         fragmentListener1 = (FragmentListener) getActivity();
         // TODO: Use the ViewModel
     }
-
-
 
 }

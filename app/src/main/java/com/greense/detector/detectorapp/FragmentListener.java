@@ -1,5 +1,5 @@
 package com.greense.detector.detectorapp;
 
-public interface FragmentListener {
+interface FragmentListener {
     public void onImageClicked();
 }

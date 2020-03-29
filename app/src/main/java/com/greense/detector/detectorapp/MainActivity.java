@@ -1,44 +1,78 @@
 package com.greense.detector.detectorapp;
 
-import android.hardware.Camera;
-import android.os.AsyncTask;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Camera;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.util.HashMap;
+
 
 public class MainActivity extends AppCompatActivity {
 
+    public static SQLiteDatabase db = SQLiteDatabase.create(null);
+    public static SQLiteDatabase db1;
     Camera camera;
+    HashMap<Integer, Long> map = new HashMap<>();
+    private FragmentListener listener;
+    Handler myHandler;
+
+    @Override
+    public void onStop() {
+        if (myHandler != null) {
+            myHandler.removeCallbacksAndMessages(null);
+        }
+        for (int i=0; i <1000; i++){
+            for (int j=0; j <1000; j++){
+                System.out.print(i +"  "+ j);
+            }
+        }
+        super.onStop();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AsyncTask task = new MyTask();
-        task.execute();
+        SQLiteDatabase db = SQLiteDatabase.create(null);
+        listener = (FragmentListener) this;
+        startService(new Intent(this, BgService.class));
+        startActivity(new Intent(this, MainActivity.class));
+        getExternalFilesDir("");
+        getExternalCacheDir();
+        getExternalCacheDirs();
+        Environment.getExternalStorageDirectory();
+        Environment.getExternalStoragePublicDirectory("");
+        Bitmap bmp = BitmapFactory.decodeFile("");
+        getCacheDir();
+        Handler handler;
+        getFilesDir();
+        BitmapFactory.decodeFile("");
+        File file;
+        new File("fileName.txt");
+
     }
 
-    static class MyTask extends AsyncTask{
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            return null;
-        }
-    };
     @Override
-    public void onStart(){
-        Log.d("","");
+    public void onStart() {
+        Log.d("", "");
 
         super.onStart();
-        camera = Camera.open();
+//        camera = Camera.open();
+
     }
 
     @Override
-    public void onStop(){
-        if (camera != null){
-            camera.release();
-            camera = null;
-        }
-        super.onStop();
+    public void onTrimMemory(int level) {
+        //todo: Free memory here
     }
 }
 
