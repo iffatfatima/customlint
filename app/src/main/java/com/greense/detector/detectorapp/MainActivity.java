@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         if (myHandler != null) {
             myHandler.removeCallbacksAndMessages(null);
         }
+        for (int i=0; i <1000; i++){
+            for (int j=0; j <1000; j++){
+                System.out.print(i +"  "+ j);
+            }
+        }
         super.onStop();
     }
 

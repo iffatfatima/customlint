@@ -99,7 +99,7 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
     }
 
     static final Issue ISSUE_VBS =
-            Issue.create("Immortality Bug",
+            Issue.create("Vacuous Background Service",
                     "A screen should not be opened while application is in background",
                     "A screen should not be opened while application is in background",
                     Category.PERFORMANCE,
