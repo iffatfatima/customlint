@@ -16,11 +16,12 @@ public class CustomLintRegistry extends IssueRegistry {
     @NotNull
     @Override
     public List<Issue> getIssues() { return Arrays.asList(
-            HeavyMethodDetector.ISSUE_HAT, HeavyMethodDetector.ISSUE_HSS, HeavyMethodDetector.ISSUE_HBR,
-            LTDetector.ISSUE_LT, ERBDetector.ISSUE_ERB,
+            HeavyMethodDetector.ISSUE_HAT, HeavyMethodDetector.ISSUE_HSS,
+            HeavyMethodDetector.ISSUE_HBR, LTRLDetector.ISSUE_RL,
+            LTRLDetector.ISSUE_LT, ERBDetector.ISSUE_ERB,
             DTWCDetector.ISSUE_DTWC, PDDetector.ISSUE_PD,
             LCDetector.ISSUE_LC, NLMRDetector.ISSUE_NLMR,
-            VBSDetector.ISSUE_VBS,/* IDSDetector.ISSUE_IDS,*/
-            BFUDetector.ISSUE_BFU, IBDetector.ISSUE_IB, IWRDetector.ISSUE_IWR, UHADetector.ISSUE_UHA,SmartLoggerDetector.ISSUE_LOG, LeakingListenerIssue.ISSUE, TextAppearanceIssue.ISSUE);
+            VBSDetector.ISSUE_VBS, UHADetector.ISSUE_UHA,
+            BFUDetector.ISSUE_BFU, IBDetector.ISSUE_IB, IWRDetector.ISSUE_IWR);
     }
 }

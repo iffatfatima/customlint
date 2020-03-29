@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Camera;
+import android.hardware.Camera;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,23 +21,29 @@ public class MainActivity extends AppCompatActivity {
     public static SQLiteDatabase db = SQLiteDatabase.create(null);
     public static SQLiteDatabase db1;
     Camera camera;
-    HashMap<Integer, Long> map = new HashMap<>();
-    private FragmentListener listener;
-    Handler myHandler;
 
     @Override
     public void onStop() {
         if (myHandler != null) {
             myHandler.removeCallbacksAndMessages(null);
         }
-        for (int i=0; i <1000; i++){
-            for (int j=0; j <1000; j++){
-                System.out.print(i +"  "+ j);
-            }
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+        if (camera != null) {
+            camera.release();
+            camera = null;
         }
         super.onStop();
     }
 
+    android.graphics.Camera cam;
+    MediaPlayer mediaPlayer;
+
+    HashMap<Integer, Long> map = new HashMap<>();
+    private FragmentListener listener;
+    Handler myHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onStart() {
-        Log.d("", "");
-
         super.onStart();
-//        camera = Camera.open();
-
     }
 
     @Override
@@ -75,13 +77,3 @@ public class MainActivity extends AppCompatActivity {
         //todo: Free memory here
     }
 }
-
-
-
-    /*@Override
-    public void onStop(){
-        if(handler != null) {
-            handler.removeCallbacksAndMessages(null);
-        }
-        super.onStop();
-    }*/
