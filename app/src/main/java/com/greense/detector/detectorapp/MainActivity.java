@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 //NLMR
 public class MainActivity extends AppCompatActivity {
-    
+
     public static SQLiteDatabase db = SQLiteDatabase.create(null);//ERB
     public static SQLiteDatabase db1;
     Camera camera;//RL
@@ -81,21 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (a + b < 2) {
                     a++;
-                }
-                if (a + b == 2) {
-                    a--;
-                }
-                if (a + b < 2) {
-                    a++;
-                }
-                if (a + b == 2) {
-                    a--;
-                }
-                if (a + b < 2) {
-                    a++;
-                }
-                if (a + b == 2) {
-                    a--;
                 }
             }
         }
