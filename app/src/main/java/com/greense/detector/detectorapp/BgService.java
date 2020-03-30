@@ -14,7 +14,7 @@ public class BgService extends Service {
     @Override
     public void onCreate() {
 
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));//IB
 
     }
 

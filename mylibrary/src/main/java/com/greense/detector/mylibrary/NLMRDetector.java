@@ -22,11 +22,7 @@ public class NLMRDetector extends Detector implements Detector.UastScanner {
     @Override
     public List<String> applicableSuperClasses() {
         return Arrays.asList("androidx.appcompat.app.AppCompatActivity", "android.support.v7.app.AppCompatActivity",
-                "android.accounts.AccountAuthenticatorActivity",
-                "android.app.AliasActivity", "android.app.ExpandableListActivity", "android.app.ActivityGroup",
-                "android.app.ListActivity", "android.app.NativeActivity", "android.app.LauncherActivity",
-                "android.app.PreferenceActivity", "android.app.TabActivity", "android.app.Activity",
-                "android.app.FragmentActivity", "androidx.fragment.app.FragmentActivity");
+                "androidx.fragment.app.Fragment", "android.support.v7.app.Fragment");
     }
 
     @Override
@@ -35,10 +31,10 @@ public class NLMRDetector extends Detector implements Detector.UastScanner {
             String qualifiedClassName = Objects.requireNonNull(classNode.getJavaPsi().getSuperClass()).getQualifiedName();
             if(Objects.requireNonNull(qualifiedClassName).equals(className)){
                 if(classNode.findMethodsByName("onTrimMemory").length == 0){
-                    context.report(ISSUE_NLMR, classNode.getRBrace(),
-                            context.getLocation(Objects.requireNonNull(classNode.getRBrace())),
+                    context.report(ISSUE_NLMR, classNode.getLBrace(),
+                            context.getLocation(Objects.requireNonNull(classNode.getLBrace())),
                             "No Low Memory Resolver",
-                            getFix(classNode.getRBrace())
+                            getFix(classNode.getLBrace())
                     );
                 }
             }
@@ -52,7 +48,7 @@ public class NLMRDetector extends Detector implements Detector.UastScanner {
                 "    }";
         String logCallSource = element.getText();
         LintFix.GroupBuilder fixGrouper = fix().group();
-        fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).beginning().with(fix).build());
+        fixGrouper.add(fix().replace().text(logCallSource).shortenNames().reformat(true).end().with(fix).build());
         return fixGrouper.build();
     }
 

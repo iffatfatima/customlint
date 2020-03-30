@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:hardwareAccelerated="false">
+        android:hardwareAccelerated="false"><!--UHA-->
         <service
             android:name=".BgService"
             android:enabled="true"

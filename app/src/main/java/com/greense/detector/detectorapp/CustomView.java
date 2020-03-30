@@ -12,7 +12,7 @@ class CustomView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        invalidate();
+        invalidate();//IWR
         invalidate(1,2,3,4);
         return false;
     }
