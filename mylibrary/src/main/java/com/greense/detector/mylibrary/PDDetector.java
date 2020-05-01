@@ -60,8 +60,8 @@ public class PDDetector extends Detector implements Detector.UastScanner {
 
     static final Issue ISSUE_PD =
             Issue.create("Public Directory",
+                    "Public Directory",
                     "Use internal storage instead of extenral Storage",
-                    "",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

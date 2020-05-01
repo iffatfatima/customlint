@@ -8,6 +8,7 @@ import com.android.tools.lint.detector.api.JavaContext;
 import com.android.tools.lint.detector.api.LintFix;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.TextFormat;
 import com.intellij.psi.PsiMethod;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,7 @@ public class IWRDetector extends Detector implements Detector.UastScanner {
         if(method.getName().equals("invalidate") && !method.hasParameters()) {
             context.report(ISSUE_IWR, call,
                     context.getLocation(call),
-                    "Must invalidate only a part of view as Rect",
+                    ISSUE_IWR.getExplanation(TextFormat.TEXT),
                     getFix(call, method.getName()));
         }
     }
@@ -41,11 +42,10 @@ public class IWRDetector extends Detector implements Detector.UastScanner {
         return fixGrouper.build();
     }
 
-
     static final Issue ISSUE_IWR =
             Issue.create("Invalidate Without Rect",
-                    "Must invalidate only a part of view as Rect",
-                    "Invalidate a part of view instead of whole View using Rect",
+                    "Invalidate Without Rect",
+                    "Invalidate a part of view as Rect instead of whole View using Rect",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

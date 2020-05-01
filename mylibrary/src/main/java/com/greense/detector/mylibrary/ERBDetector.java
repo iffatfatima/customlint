@@ -8,6 +8,7 @@ import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.JavaContext;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.TextFormat;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.uast.UElement;
@@ -36,8 +37,8 @@ public class ERBDetector extends Detector implements Detector.UastScanner {
 
     static final Issue ISSUE_ERB =
             Issue.create("Early Resource Binding",
+                    "Early Resource Binding",
                     "This variable should be lazy initialized",
-                    "",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,
@@ -52,7 +53,7 @@ public class ERBDetector extends Detector implements Detector.UastScanner {
                 if (typeName != null && typeName.equalsIgnoreCase(myTypeName) && expression.textContains('=')) {
                     context.report(ISSUE_ERB, (UElement) expression,
                             context.getLocation((UElement) expression),
-                            "Early Resource Binding",
+                            ISSUE_ERB.getExplanation(TextFormat.TEXT),
                             null
                     );
                 }

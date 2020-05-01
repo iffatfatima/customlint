@@ -114,8 +114,8 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
 
     static final Issue ISSUE_DTWC =
             Issue.create("Data Transmission Without Compression",
+                    "Data Transmission Without Compression",
                     "Compress Bitmap before sending over network",
-                    "",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

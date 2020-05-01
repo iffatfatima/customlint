@@ -8,6 +8,7 @@ import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.JavaContext;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.TextFormat;
 import com.intellij.psi.PsiMethod;
 
 import org.jetbrains.annotations.NotNull;
@@ -94,7 +95,7 @@ public class HeavyMethodDetector extends Detector implements Detector.UastScanne
                     if (complexity > COMPLEXITY_THRESHOLD){
                         context.report(ISSUE_HSS, method,
                                 context.getLocation(method),
-                                "Heavy Start Service",
+                                ISSUE_HSS.getExplanation(TextFormat.TEXT),
                                 null
                         );
                         complexity = 0;
@@ -109,7 +110,7 @@ public class HeavyMethodDetector extends Detector implements Detector.UastScanne
                     if (complexity > COMPLEXITY_THRESHOLD){
                         context.report(ISSUE_HAT, method,
                                 context.getLocation(method),
-                                "Heavy Async Task",
+                                ISSUE_HAT.getExplanation(TextFormat.TEXT),
                                 null
                         );
                     }
@@ -119,7 +120,7 @@ public class HeavyMethodDetector extends Detector implements Detector.UastScanne
                     if (complexity > COMPLEXITY_THRESHOLD) {
                         context.report(ISSUE_HBR, method,
                                 context.getLocation(method),
-                                "Heavy Broadcast Receiver",
+                                ISSUE_HBR.getExplanation(TextFormat.TEXT),
                                 null
                         );
                     }
@@ -131,7 +132,7 @@ public class HeavyMethodDetector extends Detector implements Detector.UastScanne
 
     static final Issue ISSUE_HAT =
             Issue.create("Heavy Async Task",
-                    "Heavy Operations should not be carried out in Async Tasks",
+                    "Heavy Async Task",
                     "Try reducing computational complexity of Async Task methods",
                     Category.PERFORMANCE,
                     6,
@@ -140,7 +141,7 @@ public class HeavyMethodDetector extends Detector implements Detector.UastScanne
 
     static final Issue ISSUE_HBR =
             Issue.create("Heavy Start Service",
-                    "Heavy Operations should not be carried out in BroadCasr Receiver",
+                    "Heavy Start Service",
                     "Try reducing computational complexity of onRecieve method",
                     Category.PERFORMANCE,
                     6,
@@ -149,7 +150,7 @@ public class HeavyMethodDetector extends Detector implements Detector.UastScanne
 
     static final Issue ISSUE_HSS =
             Issue.create("Heavy Start Service",
-                    "Heavy Operations should not be carried out in Services",
+                    "Heavy Start Service",
                     "Try reducing computational complexity of service methods",
                     Category.PERFORMANCE,
                     6,

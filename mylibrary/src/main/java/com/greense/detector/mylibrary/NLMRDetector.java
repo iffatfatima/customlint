@@ -8,6 +8,7 @@ import com.android.tools.lint.detector.api.JavaContext;
 import com.android.tools.lint.detector.api.LintFix;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.TextFormat;
 import com.intellij.psi.PsiElement;
 
 import org.jetbrains.annotations.NotNull;
@@ -21,8 +22,7 @@ public class NLMRDetector extends Detector implements Detector.UastScanner {
 
     @Override
     public List<String> applicableSuperClasses() {
-        return Arrays.asList("androidx.appcompat.app.AppCompatActivity", "android.support.v7.app.AppCompatActivity",
-                "androidx.fragment.app.Fragment", "android.support.v7.app.Fragment");
+        return Arrays.asList("androidx.appcompat.app.AppCompatActivity", "android.support.v7.app.AppCompatActivity");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class NLMRDetector extends Detector implements Detector.UastScanner {
                 if(classNode.findMethodsByName("onTrimMemory").length == 0){
                     context.report(ISSUE_NLMR, classNode.getLBrace(),
                             context.getLocation(Objects.requireNonNull(classNode.getLBrace())),
-                            "No Low Memory Resolver",
+                            ISSUE_NLMR.getExplanation(TextFormat.TEXT),
                             getFix(classNode.getLBrace())
                     );
                 }
@@ -54,7 +54,7 @@ public class NLMRDetector extends Detector implements Detector.UastScanner {
 
     static final Issue ISSUE_NLMR =
             Issue.create("No Low Memory Resolver",
-                    "Once the device memory is full, release some memory from your application",
+                    "No Low Memory Resolver",
                     "Once the device memory is full, release some memory from your application",
                     Category.PERFORMANCE,
                     6,

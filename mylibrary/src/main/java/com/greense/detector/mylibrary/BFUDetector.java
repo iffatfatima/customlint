@@ -7,6 +7,7 @@ import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.JavaContext;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.TextFormat;
 import com.intellij.psi.PsiMethod;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,15 +30,15 @@ public class BFUDetector extends Detector implements Detector.UastScanner {
         if(method.getName().equals(CREATE_BITMAP)){
             context.report(ISSUE_BFU, call,
                     context.getLocation(call),
-                    "Bitmap Format Usage Bug",
+                    ISSUE_BFU.getExplanation(TextFormat.TEXT),
                     null
             );
         }
     }
 
     static final Issue ISSUE_BFU =
-            Issue.create("Bitmap Format Usage Bug",
-                    "Using a large number of bitmaps in an application can lead to increase in energy consumption",
+            Issue.create("Bitmap Format Usage",
+                    "Bitmap Format Usage",
                     "Using a large number of bitmaps in an application can lead to increase in energy consumption",
                     Category.PERFORMANCE,
                     6,

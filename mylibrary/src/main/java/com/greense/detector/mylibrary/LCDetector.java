@@ -10,6 +10,7 @@ import com.android.tools.lint.detector.api.JavaContext;
 import com.android.tools.lint.detector.api.LintFix;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.TextFormat;
 import com.intellij.psi.PsiElement;
 
 import org.jetbrains.annotations.NotNull;
@@ -76,14 +77,14 @@ public class LCDetector extends Detector implements Detector.UastScanner {
                                 if (!onStopBody.contains(field.getName() + "=null")) {
                                     context.report(ISSUE_LC,  classNode.getRBrace(),
                                             context.getLocation(Objects.requireNonNull(Objects.requireNonNull(onStopMethod.getJavaPsi().getBody()).getLBrace())),
-                                            "Leaking class",
+                                            ISSUE_LC.getExplanation(TextFormat.TEXT),
                                             getFix(onStopMethod, field.getName())
                                     );
                                 }
                             } else {
                                 context.report(ISSUE_LC, classNode.getRBrace(),
                                         context.getLocation(field),
-                                        "Leaking class",
+                                        ISSUE_LC.getExplanation(TextFormat.TEXT),
                                         getFix(Objects.requireNonNull(classNode.getRBrace()), field.getName())
                                 );
                             }
@@ -117,9 +118,9 @@ public class LCDetector extends Detector implements Detector.UastScanner {
     }
 
     static final Issue ISSUE_LC =
-            Issue.create("Leaking class",
-                    "Leaking class",
-                    "Leaking class",
+            Issue.create("Lifecycle Containment",
+                    "Lifecycle Containment",
+                    "Set variable of type interface to null when application goes to background for long time",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

@@ -193,8 +193,8 @@ public class LTRLDetector extends Detector implements Detector.UastScanner {
 
     static final Issue ISSUE_LT =
             Issue.create("Leaking Thread",
+                    "Leaking Thread",
                     "All callbacks for handler must be removed when app goes to background",
-                    "",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,
@@ -202,8 +202,8 @@ public class LTRLDetector extends Detector implements Detector.UastScanner {
 
     static final Issue ISSUE_RL =
             Issue.create("Resource Leak",
+                    "Resource Leak",
                     "All callbacks for handler must be removed when app goes to background",
-                    "",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

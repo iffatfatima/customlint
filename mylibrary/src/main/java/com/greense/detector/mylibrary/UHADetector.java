@@ -10,6 +10,7 @@ import com.android.tools.lint.detector.api.Issue;
 import com.android.tools.lint.detector.api.LintFix;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.TextFormat;
 import com.android.tools.lint.detector.api.XmlContext;
 
 import org.w3c.dom.Element;
@@ -24,10 +25,10 @@ public class UHADetector extends ManifestDetector implements Detector.XmlScanner
     public void visitElement(@NonNull XmlContext context, @NonNull Element element) {
         if (element.getTagName().equals(TAG_APPLICATION)){
             if(!element.hasAttributeNS(ANDROID_URI,"hardwareAccelerated")){
-                context.report(ISSUE_UHA, element, context.getLocation(element), "Enable hardware acceleration", addUHA());
+                context.report(ISSUE_UHA, element, context.getLocation(element), ISSUE_UHA.getExplanation(TextFormat.TEXT), addUHA());
             }
             else if(element.getAttributeNodeNS(ANDROID_URI, "hardwareAccelerated").getValue().equalsIgnoreCase("false")){
-                context.report(ISSUE_UHA, element, context.getLocation(element), "Enable hardware acceleration", addUHA());
+                context.report(ISSUE_UHA, element, context.getLocation(element), ISSUE_UHA.getExplanation(TextFormat.TEXT), addUHA());
             }
         }
     }
@@ -49,8 +50,8 @@ public class UHADetector extends ManifestDetector implements Detector.XmlScanner
     }
 
     static final Issue ISSUE_UHA =
-            Issue.create("Hardware acceleration not added", "",
-                    "", Category.PERFORMANCE, 6, Severity.WARNING,
+            Issue.create("Unused Hardware Acceleration", "Add hardwareAccelerated=true",
+                    "Add hardwareAccelerated=true", Category.PERFORMANCE, 6, Severity.WARNING,
                     new Implementation(UHADetector.class, Scope.MANIFEST_SCOPE));
 
 }

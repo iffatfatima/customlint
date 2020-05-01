@@ -8,6 +8,7 @@ import com.android.tools.lint.detector.api.JavaContext;
 import com.android.tools.lint.detector.api.LintFix;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.TextFormat;
 import com.intellij.psi.PsiMethod;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +37,7 @@ public class IBDetector extends Detector implements Detector.UastScanner {
                 if (method.getName().equals(START_ACTIVITY) || method.getName().equals(START_ACTIVITIES)) {
                     context.report(ISSUE_IB, call,
                             context.getLocation(call),
-                            "Immortality Bug",
+                            ISSUE_IB.getExplanation(TextFormat.TEXT),
                             getFix(call)
                     );
                 }
@@ -54,7 +55,7 @@ public class IBDetector extends Detector implements Detector.UastScanner {
 
     static final Issue ISSUE_IB =
             Issue.create("Immortality Bug",
-                    "A screen should not be opened while application is in background",
+                    "Immortality Bug",
                     "A screen should not be opened while application is in background",
                     Category.PERFORMANCE,
                     6,

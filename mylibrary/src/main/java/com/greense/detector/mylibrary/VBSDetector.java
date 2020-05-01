@@ -9,6 +9,7 @@ import com.android.tools.lint.detector.api.JavaContext;
 import com.android.tools.lint.detector.api.LintFix;
 import com.android.tools.lint.detector.api.Scope;
 import com.android.tools.lint.detector.api.Severity;
+import com.android.tools.lint.detector.api.TextFormat;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethod;
@@ -67,7 +68,7 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
                     if(!onStopBody.contains(checkExp)) {
                         context.report(ISSUE_VBS, psiCLass.getRBrace(),
                                 context.getLocation(Objects.requireNonNull(Objects.requireNonNull(onStopMethod.getBody()).getLBrace())),
-                                "Vacuous Background Service",
+                                ISSUE_VBS.getExplanation(TextFormat.TEXT),
                                 applyFix(onStopMethod, intentExp)
                         );
                     }
@@ -75,7 +76,7 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
                 else{
                     context.report(ISSUE_VBS, psiCLass.getLBrace(),
                             context.getLocation(psiCLass.getLBrace()),
-                            "Vacuous Background Service",
+                            ISSUE_VBS.getExplanation(TextFormat.TEXT),
                             applyFix(psiCLass.getLBrace(), intentExp)
                     );
                 }
@@ -110,7 +111,7 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
 
     static final Issue ISSUE_VBS =
             Issue.create("Vacuous Background Service",
-                    "A screen should not be opened while application is in background",
+                    "Vacuous Background Service",
                     "A screen should not be opened while application is in background",
                     Category.PERFORMANCE,
                     6,
