@@ -112,7 +112,7 @@ public class VBSDetector extends Detector implements Detector.UastScanner {
     static final Issue ISSUE_VBS =
             Issue.create("Vacuous Background Service",
                     "Vacuous Background Service",
-                    "A screen should not be opened while application is in background",
+                    "Service must be stopped once it is no longer in use",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

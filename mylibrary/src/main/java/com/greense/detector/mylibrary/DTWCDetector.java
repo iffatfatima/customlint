@@ -98,16 +98,16 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
     private boolean hasEquals = false;
 
     private String getVarName(PsiElement source) {
-        if (source.getPrevSibling().getText().equals(" ")){
-            return getVarName(source.getPrevSibling());
-        }
-        else if(source.getPrevSibling().getText().equals("=")){
-            hasEquals = true;
-            return getVarName(source.getPrevSibling());
-        }
-        else if(hasEquals){
-            hasEquals = false;
-            return source.getPrevSibling().getText();
+        if (source != null) {
+            if (source.getPrevSibling().getText().equals(" ")) {
+                return getVarName(source.getPrevSibling());
+            } else if (source.getPrevSibling().getText().equals("=")) {
+                hasEquals = true;
+                return getVarName(source.getPrevSibling());
+            } else if (hasEquals) {
+                hasEquals = false;
+                return source.getPrevSibling().getText();
+            }
         }
         return "";
     }

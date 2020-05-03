@@ -49,14 +49,16 @@ public class LTRLDetector extends Detector implements Detector.UastScanner {
                 for (UField field: classNode.getFields()){
                     String element = Objects.requireNonNull(field.getTypeReference()).getQualifiedName();
 //                    element = element.substring(element.lastIndexOf(":") +1, element.length());
-                    if (element.equalsIgnoreCase("android.os.Handler")){
-                        handlerFields.add(field);
-                    }
-                    if (element.equalsIgnoreCase("android.hardware.Camera")){
-                        camFields.add(field);
-                    }
-                    if (element.equalsIgnoreCase("android.media.MediaPlayer")){
-                        mpFields.add(field);
+                    if (element != null) {
+                        if (element.equalsIgnoreCase("android.os.Handler")) {
+                            handlerFields.add(field);
+                        }
+                        if (element.equalsIgnoreCase("android.hardware.Camera")) {
+                            camFields.add(field);
+                        }
+                        if (element.equalsIgnoreCase("android.media.MediaPlayer")) {
+                            mpFields.add(field);
+                        }
                     }
                 }
                 if (handlerFields.size() > 0) {

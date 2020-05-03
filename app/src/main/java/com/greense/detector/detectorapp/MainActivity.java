@@ -17,6 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 //NLMR
 public class MainActivity extends AppCompatActivity {
+    @Override
+    public void onStop() {
+        stopService(new Intent(this, BgService.class));
+
+        super.onStop();
+    }
 
     public static SQLiteDatabase db = SQLiteDatabase.create(null);//ERB
     public static SQLiteDatabase db1;

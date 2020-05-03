@@ -51,11 +51,13 @@ public class ERBDetector extends Detector implements Detector.UastScanner {
             String typeName = Objects.requireNonNull(expression.getTypeReference()).getQualifiedName();
             for (String myTypeName: typeNames){
                 if (typeName != null && typeName.equalsIgnoreCase(myTypeName) && expression.textContains('=')) {
-                    context.report(ISSUE_ERB, (UElement) expression,
-                            context.getLocation((UElement) expression),
-                            ISSUE_ERB.getExplanation(TextFormat.TEXT),
-                            null
-                    );
+                    if (!expression.toString().split("=")[1].contains("null")) {
+                        context.report(ISSUE_ERB, (UElement) expression,
+                                context.getLocation((UElement) expression),
+                                ISSUE_ERB.getExplanation(TextFormat.TEXT),
+                                null
+                        );
+                    }
                 }
             }
         }
