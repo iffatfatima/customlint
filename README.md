@@ -11,7 +11,7 @@ Step 2:  In ‘Analyze’ menu, select ‘Inspect code’ > whole project. The e
 
 Step 3: For each detected code smell/energy bug our extended ‘Android Lint’ tool show Lint warnings to developers. Whenever a new line of code is added and if it violates any rule, it is automatically detected and highlighted by extended ‘Android Lint’ tool.
 
-Step 4: Clicking on the warning sign shows a suggestion for correction, if available (see figure 3). In case of improved code smell/energy bugs the new warning/suggestions are shown below the standard suggestions.
+Step 4: Clicking on the warning sign shows a suggestion for correction, if available (see figure 1). In case of improved code smell/energy bugs the new warning/suggestions are shown below the standard suggestions.
 
 Step 5: Correction can be applied directly on the code by a single click on the suggestion box.
 
@@ -23,6 +23,7 @@ Typical usage of this tool is explained through the following example:
 * Figure shows the corrected source code for Resource Leak issue, by releasing MediaPlayer instance.
 
 ![](images/Fig1.png)
+
 **Fig. 1.**  (Left) List of detected Issues. (Right) Highlighted source code with defect and correction suggestion
 
 ### 2.	Evaluation 
