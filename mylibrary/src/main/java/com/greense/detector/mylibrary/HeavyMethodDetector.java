@@ -133,7 +133,7 @@ public class HeavyMethodDetector extends Detector implements Detector.UastScanne
     static final Issue ISSUE_HAT =
             Issue.create("Heavy Async Task",
                     "Heavy Async Task",
-                    "Try reducing computational complexity of Async Task methods",
+                    "Reduce the complexity of the main thread by offloading heavy operation.",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,
@@ -142,7 +142,7 @@ public class HeavyMethodDetector extends Detector implements Detector.UastScanne
     static final Issue ISSUE_HBR =
             Issue.create("Heavy Start Service",
                     "Heavy Start Service",
-                    "Try reducing computational complexity of onRecieve method",
+                    "Reduce the complexity of the main thread by offloading heavy operation.",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,
@@ -151,7 +151,7 @@ public class HeavyMethodDetector extends Detector implements Detector.UastScanne
     static final Issue ISSUE_HSS =
             Issue.create("Heavy Start Service",
                     "Heavy Start Service",
-                    "Try reducing computational complexity of service methods",
+                    "Reduce the complexity of the main thread by offloading heavy operation.",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

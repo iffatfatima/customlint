@@ -39,8 +39,8 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
             if (method.getName().equals(methodName)) {
                 context.report(ISSUE_DTWC, call,
                         context.getLocation(call),
-                        getFix(call, method.getName()), null
-//                        getFix(call, method.getName())
+                        null, null
+//                        getFix(call, method.getName())f
                 );
             }
         }
@@ -115,7 +115,7 @@ public class DTWCDetector extends Detector implements Detector.UastScanner {
     static final Issue ISSUE_DTWC =
             Issue.create("Data Transmission Without Compression",
                     "Data Transmission Without Compression",
-                    "Compress Bitmap before sending over network",
+                    "Sending a bitmap over a network without compressing it could cause a communication overhead",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

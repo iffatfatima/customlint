@@ -39,7 +39,7 @@ public class BFUDetector extends Detector implements Detector.UastScanner {
     static final Issue ISSUE_BFU =
             Issue.create("Bitmap Format Usage",
                     "Bitmap Format Usage",
-                    "Using a large number of bitmaps in an application can lead to increase in energy consumption",
+                    "Loading multiple bitmaps into memory could affect the responsiveness and fluidity UI",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

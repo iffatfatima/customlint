@@ -38,7 +38,7 @@ public class ERBDetector extends Detector implements Detector.UastScanner {
     static final Issue ISSUE_ERB =
             Issue.create("Early Resource Binding",
                     "Early Resource Binding",
-                    "This variable should be lazy initialized",
+                    "Initialize energy consuming components in a suitable method where they are needed.",
                     Category.PERFORMANCE,
                     6,
                     Severity.WARNING,

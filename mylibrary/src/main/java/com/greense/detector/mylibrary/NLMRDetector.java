@@ -22,7 +22,7 @@ public class NLMRDetector extends Detector implements Detector.UastScanner {
 
     @Override
     public List<String> applicableSuperClasses() {
-        return Arrays.asList("androidx.appcompat.app.AppCompatActivity", "android.support.v7.app.AppCompatActivity");
+        return Arrays.asList("androidx.appcompat.app.AppCompatActivity", "android.support.v7.app.AppCompatActivity", "android.app.Activity");
     }
 
     @Override

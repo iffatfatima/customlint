@@ -50,7 +50,7 @@ public class UHADetector extends ManifestDetector implements Detector.XmlScanner
     }
 
     static final Issue ISSUE_UHA =
-            Issue.create("Unused Hardware Acceleration", "Add hardwareAccelerated=true",
+            Issue.create("Unused Hardware Acceleration", "Unused Hardware Acceleration",
                     "Add hardwareAccelerated=true", Category.PERFORMANCE, 6, Severity.WARNING,
                     new Implementation(UHADetector.class, Scope.MANIFEST_SCOPE));
 
