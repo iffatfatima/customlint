@@ -6,10 +6,14 @@ In this section, we explain how to use our extended ‘Android Lint’ tool. The
  An application is analyzed for Android code smells and energy bugs in the following steps: 
 
 Step 1: The jar file new extended ‘Android Lint’ tool is placed in the .android/lint folder of the Android Studio installation, typically located in user.home unless specified otherwise. Step 1 is performed one time steps and does not need to be repeated for every analysis
+
 Step 2:  In ‘Analyze’ menu, select ‘Inspect code’ > whole project. The extended ‘Android Lint’ analyzes the source code based on all custom rules and displays a list of detected code smells and energy bugs under Android > Lint > Performance. The custom rules could be differentiated from the default rules using the issue IDs (which are same as the Android code smell/energy bug names defined in Annex A).
+
 Step 3: For each detected code smell/energy bug our extended ‘Android Lint’ tool show Lint warnings to developers. Whenever a new line of code is added and if it violates any rule, it is automatically detected and highlighted by extended ‘Android Lint’ tool.
-Step 3: Clicking on the warning sign shows a suggestion for correction, if available (see figure 3). In case of improved code smell/energy bugs the new warning/suggestions are shown below the standard suggestions.
-Step 4: Correction can be applied directly on the code by a single click on the suggestion box.
+
+Step 4: Clicking on the warning sign shows a suggestion for correction, if available (see figure 3). In case of improved code smell/energy bugs the new warning/suggestions are shown below the standard suggestions.
+
+Step 5: Correction can be applied directly on the code by a single click on the suggestion box.
 
 #### 1.1 Example
 
