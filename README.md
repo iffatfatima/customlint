@@ -52,6 +52,41 @@ Figure 4 shows the occurrence of true positives, false positives and false negat
 
 **Fig 4.** Graph showing number of true positives, false positives and false negatives from detection results of extended ‘Android Lint’ tool and ‘PAPRIKA’
 
+
+### Annex A:
+
+The definitions of Android code smells were extracted from studies [1 - 4]. The definitions of energy bugs were extracted from studies [5-6]
+
+#### Definitions of Andorid energy bugs and code smells
+
+**Data Transmission Without Compression** refers to code smell that arises when data is transmitted over network without compressing it first. Only warning is shown for detection of this issue and compression is left to discretion of developer. 
+**Leaking Thread** refers to code smell that arises them a thread is never stopped. In Android applications if a Handler resource does not remove its callbacks before going to background, it can cause a thread leak. 
+
+**No Low Memory Resolver** refers to a code smell that arises when onLowMemory method is not overridden in Activity class. The correction for this issue only created an empty function and memory clearing is left to developer based on use case. 
+
+**Public Data** refers to code smell that arises when external public directories are used to store data instead of internal directories. 
+
+**Lifecycle Containment** refers to a code smell that arises when a listener is registered but not unregistered from Activity. 
+
+**Unsupported Hardware Acceleration** refers to code smell that arises when hardware acceleration is not enabled in Manifest file.  
+
+**Bitmap Format Usage** is a code smell that arises when images are represented as Bitmaps which is memory intensive function. As this is a use case dependent functionality therefore only a warning is provided against this detection. 
+
+**Invalidate Without Rect** refers to a code smell that arises when rect to be redrawn is not specified while invalidating the view. The specification of the rect to be made is left to discretion of the developer in correction. 
+
+**Heavy Async Task** refers to a code smell that arises when heavy operations are carried out inside an Async Task. Heavy operation is considered to be any operation that has computational complexity of greater than 10 (McConnel S. Code Complete). 
+
+**Heavy Start Service** refers to a code smell that arises when heavy operations are carried out inside a Service. 
+
+Heavy Broadcast Receiver refers to a code smell that arises when heavy operations are carried out inside a onRecieve() function of Broadcast Receiver. 
+
+**Early Resource Binding** refers to code smell that arises when heavy resources such as database connections, Camera, Media Player and Location Manager are initialized before they need to be used. For this detection only a warning is shown and lazy initialization of the resource is left to discretion of the developer. 
+
+**Resource Leak** refers to energy bug that arises when resources like Camera, Media Player etc. are not properly released after usage. They need to be released as soon as the user navigates away from the activity or fragment using them. 
+
+**Vacuous Background Service** refers to an energy bug that arises when a service consumes resources in the background. Hence, a service should be stopped before application goes to background in onStop method.
+**Immortality Bug** refers an energy bug that arises when an application re-spawns when it is not opened by the user. To detect this issues, calls to start a foreground operation like Activity are removed from background operations like Services. 
+
 ### References 
 
 [1]	F. Palomba, D. Di Nucci, A. Panichella, A. Zaidman, and A. De Lucia, “Lightweight detection of Android-specific code smells: The aDoctor project,” Proc. 24th IEEE Int. Conf. Softw. Anal. Evol. Reengineering - SANER, pp. 487–491, 2017, doi: 10.1109/SANER.2017.7884659.
