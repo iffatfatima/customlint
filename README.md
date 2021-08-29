@@ -26,3 +26,11 @@ Typical usage of this tool is explained through the following example:
 
 **Fig. 1.**  (Left) List of detected Issues. (Right) Highlighted source code with defect and correction suggestion
 
+
+### Publications
+
+Fatima, I., Anwar H., Pfahl D., Qamar U. (2020). Detection and Correction of Android-specific Code Smells and Energy Bugs: An Android Lint Extension. 8th International Workshop on Quantitative Approaches to Software Quality. CEUR-WS.org. http://ceur-ws.org/Vol-2767/09-QuASoQ-2020.pdf 
+
+Fatima, I., Anwar H., Pfahl D., Qamar U. (2020). Tool Support for Green Android Development: A Systematic Mapping Study. 15th International Conference on Software Technologies. SciTePress. https://www.scitepress.org/Papers/2020/97703/97703.pdf
+
+
